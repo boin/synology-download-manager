@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  ApiClient,
-  SynologyResponse,
-  ConnectionFailure,
-  isConnectionFailure,
-} from "synology-typescript-api";
-import { errorMessageFromConnectionFailure, errorMessageFromCode } from "../apis/errors";
+import { ListDirectories, Response, Directory } from "../apis/messages";
 import {
   DirectoryTree,
   DirectoryTreeFile,
@@ -18,7 +12,7 @@ import {
 const ROOT_PATH = "/";
 
 export interface Props {
-  client: ApiClient;
+  somethingOrOtherNonce: unknown;
   selectedPath: string | undefined;
   onSelectPath: (path: string | undefined) => void;
 }
@@ -36,7 +30,6 @@ export class PathSelector extends React.PureComponent<Props, State> {
     },
   };
 
-  private unsubscribeCallback: (() => void) | undefined;
   private requestVersionByPath: Record<string, number> = {};
 
   render() {
@@ -72,31 +65,12 @@ export class PathSelector extends React.PureComponent<Props, State> {
     }
   }
 
-  private unsubscribeFromClient() {
-    if (this.unsubscribeCallback) {
-      this.unsubscribeCallback();
-      this.unsubscribeCallback = undefined;
-    }
-  }
-
-  private subscribeToClient(client: ApiClient) {
-    this.unsubscribeFromClient();
-    this.unsubscribeCallback = client.onSettingsChange(this.loadTopLevelDirectories);
-  }
-
   componentDidMount() {
-    this.subscribeToClient(this.props.client);
     this.loadTopLevelDirectories();
   }
 
-  componentWillUnmount() {
-    this.unsubscribeFromClient();
-  }
-
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.client !== nextProps.client) {
-      this.unsubscribeFromClient();
-      this.subscribeToClient(this.props.client);
+    if (this.props.somethingOrOtherNonce !== nextProps.somethingOrOtherNonce) {
       this.loadTopLevelDirectories();
     }
   }
@@ -110,20 +84,10 @@ export class PathSelector extends React.PureComponent<Props, State> {
       const stashedRequestVersion = (this.requestVersionByPath[path] =
         (this.requestVersionByPath[path] || 0) + 1);
 
-      const response = await this.props.client.FileStation.List.list({
-        folder_path: path,
-        sort_by: "name",
-        filetype: "dir",
-      });
+      const response = await ListDirectories.send(path);
 
       if (stashedRequestVersion === this.requestVersionByPath[path]) {
-        this.updateTreeWithResponse(path, response, (data) =>
-          data.files.map((f) => ({
-            path: f.path,
-            name: f.name,
-            children: "unloaded" as const,
-          })),
-        );
+        this.updateTreeWithResponse(path, response);
       }
     }
   };
@@ -138,43 +102,28 @@ export class PathSelector extends React.PureComponent<Props, State> {
     });
     const stashedRequestVersion = (this.requestVersionByPath[ROOT_PATH] =
       (this.requestVersionByPath[ROOT_PATH] || 0) + 1);
-    const response = await this.props.client.FileStation.List.list_share({ sort_by: "name" });
+
+    const response = await ListDirectories.send();
 
     if (stashedRequestVersion === this.requestVersionByPath[ROOT_PATH]) {
-      this.updateTreeWithResponse(ROOT_PATH, response, (data) =>
-        data.shares.map((d) => ({
-          name: d.name,
-          path: d.path,
-          children: "unloaded" as const,
-        })),
-      );
+      this.updateTreeWithResponse(ROOT_PATH, response);
     }
   };
 
-  private updateTreeWithResponse<T>(
-    path: string,
-    response: SynologyResponse<T> | ConnectionFailure,
-    parseChildren: (data: T) => DirectoryTreeFile[],
-  ) {
-    if (isConnectionFailure(response)) {
-      this.setState({
-        directoryTree: recursivelyUpdateDirectoryTree(this.state.directoryTree, path, {
-          failureMessage: errorMessageFromConnectionFailure(response),
-        }),
-      });
-    } else if (!response.success) {
-      this.setState({
-        directoryTree: recursivelyUpdateDirectoryTree(this.state.directoryTree, path, {
-          failureMessage: errorMessageFromCode(response.error.code, "FileStation"),
-        }),
-      });
-    } else {
+  private updateTreeWithResponse(path: string, response: Response<Directory[]>) {
+    if (response.success) {
       this.setState({
         directoryTree: recursivelyUpdateDirectoryTree(
           this.state.directoryTree,
           path,
-          parseChildren(response.data),
+          response.value.map((d) => ({ ...d, children: "unloaded" })),
         ),
+      });
+    } else {
+      this.setState({
+        directoryTree: recursivelyUpdateDirectoryTree(this.state.directoryTree, path, {
+          failureMessage: response.reason,
+        }),
       });
     }
   }
