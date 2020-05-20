@@ -6,18 +6,24 @@ import classNames from "classnames";
 
 import { formatMetric1024, formatTime, formatPercentage } from "../common/format";
 import { matchesFilter } from "../common/filtering";
-import type { CallbackResponse } from "../common/apis/messages";
+import type { Response } from "../common/apis/messages";
+
+type SimpleResponse = "success" | { failMessage: string };
+
+const SimpleResponse = {
+  from: (r: Response) => (r.success ? "success" : { failMessage: r.reason }),
+};
 
 export interface Props {
   task: DownloadStationTask;
-  onDelete?: (taskId: string) => Promise<CallbackResponse>;
-  onPause?: (taskId: string) => Promise<CallbackResponse>;
-  onResume?: (taskId: string) => Promise<CallbackResponse>;
+  onDelete?: (taskId: string) => Promise<Response>;
+  onPause?: (taskId: string) => Promise<Response>;
+  onResume?: (taskId: string) => Promise<Response>;
 }
 
-export interface State {
+interface State {
   pauseResumeState: "none" | "in-progress" | { failMessage: string };
-  deleteState: "none" | "in-progress" | CallbackResponse;
+  deleteState: "none" | "in-progress" | SimpleResponse;
 }
 
 export class Task extends React.PureComponent<Props, State> {
@@ -225,8 +231,8 @@ export class Task extends React.PureComponent<Props, State> {
         pauseResumeState: "in-progress",
       });
 
-      const response = await (what === "pause" ? this.props.onPause! : this.props.onResume!)(
-        this.props.task.id,
+      const response = SimpleResponse.from(
+        await (what === "pause" ? this.props.onPause! : this.props.onResume!)(this.props.task.id),
       );
 
       this.setState({
@@ -241,7 +247,7 @@ export class Task extends React.PureComponent<Props, State> {
       deleteState: "in-progress",
     });
 
-    const response = await this.props.onDelete!(this.props.task.id);
+    const response = SimpleResponse.from(await this.props.onDelete!(this.props.task.id));
 
     this.setState({
       deleteState: response,

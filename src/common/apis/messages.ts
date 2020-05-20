@@ -1,4 +1,12 @@
-export type CallbackResponse = "success" | { failMessage: string };
+export type Response<T = void> =
+  | {
+      success: true;
+      value: T;
+    }
+  | {
+      success: false;
+      reason: string;
+    };
 
 export interface AddTasks {
   type: "add-tasks";
@@ -46,9 +54,9 @@ export const Message = {
 export type Result = {
   "add-tasks": void;
   "poll-tasks": void;
-  "pause-task": CallbackResponse;
-  "resume-task": CallbackResponse;
-  "delete-tasks": CallbackResponse;
+  "pause-task": Response;
+  "resume-task": Response;
+  "delete-tasks": Response;
 };
 
 // Pick the union member that matches the given discriminant.
