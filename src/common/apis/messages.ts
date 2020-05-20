@@ -33,7 +33,17 @@ export interface DeleteTasks {
   taskIds: string[];
 }
 
-export type Message = AddTasks | PollTasks | PauseTask | ResumeTask | DeleteTasks;
+export interface ListDirectories {
+  type: "list-directories";
+  path?: string;
+}
+
+export interface Directory {
+  path: string;
+  name: string;
+}
+
+export type Message = AddTasks | PollTasks | PauseTask | ResumeTask | DeleteTasks | ListDirectories;
 
 const MESSAGE_TYPES: Record<Message["type"], true> = {
   "add-tasks": true,
@@ -41,6 +51,7 @@ const MESSAGE_TYPES: Record<Message["type"], true> = {
   "pause-task": true,
   "poll-tasks": true,
   "resume-task": true,
+  "list-directories": true,
 };
 
 export const Message = {
@@ -57,6 +68,7 @@ export type Result = {
   "pause-task": Response;
   "resume-task": Response;
   "delete-tasks": Response;
+  "list-directories": Response<Directory[]>;
 };
 
 // Pick the union member that matches the given discriminant.
@@ -99,6 +111,10 @@ export const ResumeTask = makeMessageOperations("resume-task", (taskId: string) 
 
 export const DeleteTasks = makeMessageOperations("delete-tasks", (taskIds: string[]) => ({
   taskIds,
+}));
+
+export const ListDirectories = makeMessageOperations("list-directories", (path?: string) => ({
+  path,
 }));
 
 {

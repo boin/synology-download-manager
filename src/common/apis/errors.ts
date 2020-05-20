@@ -61,22 +61,21 @@ export const ERROR_CODES = {
   } as Record<string, string>,
 };
 
+export type ErrorDomain = keyof typeof ERROR_CODES;
+
+export function errorMessageFromCode(code: number, domain: null | ErrorDomain): string;
 export function errorMessageFromCode(
   code: number,
-  secondaryType: null | keyof typeof ERROR_CODES,
-): string;
-export function errorMessageFromCode(
-  code: number,
-  secondaryType: null | keyof typeof ERROR_CODES,
+  domain: null | ErrorDomain,
   defaultMessage: string | null,
 ): string | undefined;
 
 export function errorMessageFromCode(
   code: number,
-  secondaryType: null | keyof typeof ERROR_CODES,
+  domain: null | ErrorDomain,
   defaultMessage: string | null = "Unknown error.",
 ) {
-  const secondaryValue = secondaryType != null ? ERROR_CODES[secondaryType][code] : undefined;
+  const secondaryValue = domain != null ? ERROR_CODES[domain][code] : undefined;
   return ERROR_CODES.common[code] || secondaryValue || defaultMessage || undefined;
 }
 
