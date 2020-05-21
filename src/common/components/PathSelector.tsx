@@ -12,7 +12,6 @@ import {
 const ROOT_PATH = "/";
 
 export interface Props {
-  somethingOrOtherNonce: unknown;
   selectedPath: string | undefined;
   onSelectPath: (path: string | undefined) => void;
 }
@@ -67,12 +66,6 @@ export class PathSelector extends React.PureComponent<Props, State> {
 
   componentDidMount() {
     this.loadTopLevelDirectories();
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (this.props.somethingOrOtherNonce !== nextProps.somethingOrOtherNonce) {
-      this.loadTopLevelDirectories();
-    }
   }
 
   private loadNestedDirectory = async (path: string) => {

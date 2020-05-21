@@ -463,10 +463,6 @@
     "description": "Connection failure explanatory text.",
     "needs_update": true
   },
-  "Private_browsing_mode_is_not_currently_supported": {
-    "message": "Der private Browsermodus wird derzeit nicht unterstützt.",
-    "description": "Apologetic text that is the entire popup when the user tries to open it in private browsing mode."
-  },
   "Unknown_error_displaying_tasks": {
     "message": "Unbekannter Fehler bei der Anzeige von Aufgaben.",
     "description": "Main explanatory text for the popup when we have a fatal rendering error."

@@ -1,6 +1,5 @@
 import * as React from "react";
 import last from "lodash-es/last";
-import type { ApiClient } from "synology-typescript-api";
 import classNames from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
 
@@ -8,12 +7,11 @@ import { PathSelector } from "./PathSelector";
 import { startsWithAnyProtocol, ALL_DOWNLOADABLE_PROTOCOLS } from "../apis/protocols";
 
 export interface Props {
-  client: ApiClient;
   onAddDownload: (urls: string[], path: string | undefined) => void;
   onCancel: () => void;
 }
 
-export interface State {
+interface State {
   selectedPath: string | undefined;
   downloadUrl: string;
 }
@@ -49,7 +47,6 @@ export class AdvancedAddDownloadForm extends React.PureComponent<Props, State> {
             </span>
           </div>
           <PathSelector
-            client={this.props.client}
             onSelectPath={this.setSelectedPath}
             selectedPath={this.state.selectedPath}
           />
