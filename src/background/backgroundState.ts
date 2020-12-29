@@ -1,5 +1,6 @@
 import { ApiClient } from "synology-typescript-api";
 import type { NotificationSettings } from "../common/state";
+import type { CachedTrackers } from "./actions";
 import { RequestManager } from "./requestManager";
 
 export interface BackgroundState {
@@ -11,7 +12,9 @@ export interface BackgroundState {
   notificationInterval: number | undefined;
   didInitializeSettings: boolean;
   showNonErrorNotifications: boolean;
-  torrentTrackers: string[] | undefined;
+  // BackgroundState holds trackers, State holds tracker settings
+  trackerList: CachedTrackers;
+  lastTrackerURL: string | undefined;
 }
 
 const state: BackgroundState = {
@@ -22,7 +25,8 @@ const state: BackgroundState = {
   notificationInterval: undefined,
   didInitializeSettings: false,
   showNonErrorNotifications: true,
-  torrentTrackers: undefined,
+  trackerList: [],
+  lastTrackerURL: undefined,
 };
 
 export function getMutableStateSingleton() {

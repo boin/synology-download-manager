@@ -14,9 +14,19 @@ interface MetadataFileType {
   extension: string;
 }
 
+const METADATA_FILE_TYPE_TORRENT: MetadataFileType = {
+  mediaType: "application/x-bittorrent",
+  extension: ".torrent",
+};
+
+const METADATA_FILE_TYPE_NZB: MetadataFileType = {
+  mediaType: "application/x-nzb",
+  extension: ".nzb",
+};
+
 const METADATA_FILE_TYPES: MetadataFileType[] = [
-  { mediaType: "application/x-bittorrent", extension: ".torrent" },
-  { mediaType: "application/x-nzb", extension: ".nzb" },
+  METADATA_FILE_TYPE_TORRENT,
+  METADATA_FILE_TYPE_NZB,
 ];
 
 const ARBITRARY_FILE_FETCH_SIZE_CUTOFF = 1024 * 1024 * 5;
@@ -144,7 +154,11 @@ export type ResolvedUrl =
   | MissingOrIllegalUrl
   | UnexpectedErrorForUrl;
 
-export async function resolveUrl(url: string): Promise<ResolvedUrl> {
+export type ResolveOptions = {
+  trackerList: string[];
+};
+
+export async function resolveUrl(url: string, options: ResolveOptions): Promise<ResolvedUrl> {
   function createUnexpectedError(error: any, description: string): UnexpectedErrorForUrl {
     return {
       type: "unexpected-error",
@@ -180,8 +194,8 @@ export async function resolveUrl(url: string): Promise<ResolvedUrl> {
         return createUnexpectedError(e, "error while trying to fetch metadata file");
       }
 
-      if (metadataFileType.mediaType === METADATA_FILE_TYPES[0].mediaType)
-        response.data = addTrackersToMetaData(response.data);
+      if (metadataFileType.mediaType === METADATA_FILE_TYPE_TORRENT.mediaType)
+        response.data = addTrackersToMetaData(response.data, options.trackerList);
 
       return {
         type: "metadata-file",
@@ -196,7 +210,7 @@ export async function resolveUrl(url: string): Promise<ResolvedUrl> {
       };
     }
   } else if (startsWithAnyProtocol(url, ALL_DOWNLOADABLE_PROTOCOLS)) {
-    if (startsWithAnyProtocol(url, MAGNET_PROTOCOL)) url = addTrackersToURL(url);
+    if (startsWithAnyProtocol(url, MAGNET_PROTOCOL)) url = addTrackersToURL(url, options.trackerList);
     return {
       type: "direct-download",
       url,

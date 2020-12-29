@@ -410,9 +410,13 @@
       }
     }
   },
-  "Automatically_add_trackers_to_new_tasks_form_a_trackslist_URL": {
-    "message": "Automatically add trackers to new tasks form a trackslist URL",
+  "Automatically_add_torrent_trackers_from_a_list": {
+    "message": "Automatically add torrent trackers from a list",
     "description": "Label for option on settings page."
+  },
+  "Tracker_list_URL": {
+    "message": "Tracker list URL...",
+    "description": "Placeholder for input on settings page."
   },
   "URL_is_empty": {
     "message": "URL is empty",

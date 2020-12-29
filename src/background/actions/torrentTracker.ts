@@ -1,20 +1,17 @@
 import Axios from "axios";
 import bencodec from "bencodec";
 import { startsWithAnyProtocol, MAGNET_PROTOCOL } from "../../common/apis/protocols";
-import type { State } from "../../common/state";
 
-let cachedTrackers: string[] = [];
-let lastPublicTrackerURL = "";
+export type CachedTrackers = string[];
 
-async function updateRemoteTrackers(url: string) {
-  let response;
+export async function updateRemoteTrackers(url: string): Promise<CachedTrackers> {
+  let response, cachedTrackers;
 
   try {
     response = await Axios.get(url, { timeout: 10000 });
-    lastPublicTrackerURL = url;
   } catch (e) {
     console.log("Axios Error caught when updating public trackers:", e);
-    cachedTrackers = [];
+    return [];
   }
 
   const trackerText: string = response?.data?.toString();
@@ -27,32 +24,16 @@ async function updateRemoteTrackers(url: string) {
     } else {
       cachedTrackers = trackerText.split("\n");
     }
-    console.log("successfully updated public trackers:", cachedTrackers.length);
-  }
-}
-
-export function updateAndGetTorrentTrackers(storedState: State): string[] {
-  console.debug("updateAndGetTorrentTrackers was called", new Error().stack);
-  console.debug("cached trackers:", cachedTrackers.length);
-
-  const flag = storedState.settings.torrentTrackers.enablePublicTrackers;
-  const url = storedState.settings.torrentTrackers.publicTrackerURL;
-
-  if (flag && url !== lastPublicTrackerURL) {
-    updateRemoteTrackers(url);
+    console.log(`successfully updated ${cachedTrackers.length} public trackers`);
+    return cachedTrackers;
   }
 
-  return cachedTrackers;
+  return [];
 }
 
-export function setTrackers(trackers: string[]) {
-  cachedTrackers = trackers;
-}
-
-export function addTrackersToURL(url: string): string {
+export function addTrackersToURL(url: string, trackers: CachedTrackers): string {
   if (startsWithAnyProtocol(url, MAGNET_PROTOCOL)) {
-    url += url.includes("?") ? "" : "?";
-    cachedTrackers.some((t, i) => {
+    trackers.some((t, i) => {
       if (i >= 50) return true; // make sure uri is not too large
       url += "&tr=" + encodeURIComponent(t);
       return false;
@@ -61,9 +42,9 @@ export function addTrackersToURL(url: string): string {
   return url;
 }
 
-export function addTrackersToMetaData(metaData: Buffer) {
+export function addTrackersToMetaData(metaData: Buffer, trackers: CachedTrackers) {
   const torrent: any = bencodec.decode(metaData);
-  cachedTrackers.forEach((t) => {
+  trackers.forEach((t) => {
     torrent["announce-list"].push([Buffer.from(t, "utf8")]);
   });
   return bencodec.encode(torrent);

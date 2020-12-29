@@ -33,10 +33,6 @@ export type TaskSortType =
   | "completed-percent-asc"
   | "completed-percent-desc";
 
-export interface TorrentTrackerSettings {
-  enablePublicTrackers: boolean;
-  publicTrackerURL: string;
-}
 
 export interface Settings {
   connection: ConnectionSettings;
@@ -44,7 +40,6 @@ export interface Settings {
   taskSortType: TaskSortType;
   notifications: NotificationSettings;
   shouldHandleDownloadLinks: boolean;
-  torrentTrackers: TorrentTrackerSettings;
 }
 
 export interface CachedTasks {
@@ -83,10 +78,6 @@ export function transition(_state: null | undefined): State {
       pollingInterval: 60,
     },
     shouldHandleDownloadLinks: true,
-    torrentTrackers: {
-      enablePublicTrackers: false,
-      publicTrackerURL: "",
-    },
     cachedTasksVersion: 1,
     tasks: [],
     taskFetchFailureReason: null,

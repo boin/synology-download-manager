@@ -6,7 +6,6 @@ import {
   ConnectionSettings as ConnectionSettings_1,
   VisibleTaskSettings as VisibleTaskSettings_1,
   TaskSortType as TaskSortType_1,
-  TorrentTrackerSettings as TTSettings_1,
 } from "./1";
 
 export { Protocol, VisibleTaskSettings, TaskSortType, ConnectionSettings } from "./1";
@@ -23,7 +22,6 @@ export interface Settings {
   taskSortType: TaskSortType_1;
   notifications: NotificationSettings;
   shouldHandleDownloadLinks: boolean;
-  torrentTrackers: TTSettings_1;
 }
 
 export interface CachedTasks {
@@ -61,10 +59,6 @@ export function transition(state: State_1): State {
       enableFeedbackNotifications: true,
       enableCompletionNotifications: state.notifications.enabled,
       completionPollingInterval: state.notifications.pollingInterval,
-    },
-    torrentTrackers: {
-      enablePublicTrackers: state.torrentTrackers.enablePublicTrackers,
-      publicTrackerURL: state.torrentTrackers.publicTrackerURL,
     },
     lastSevereError: undefined,
     stateVersion: 2,

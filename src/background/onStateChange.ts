@@ -3,7 +3,7 @@ import { SessionName } from "synology-typescript-api";
 import { getMutableStateSingleton } from "./backgroundState";
 import { getHostUrl, State } from "../common/state";
 import { notify } from "../common/notify";
-import { pollTasks, clearCachedTasks, updateAndGetTorrentTrackers } from "./actions";
+import { pollTasks, clearCachedTasks, updateRemoteTrackers } from "./actions";
 import { assertNever } from "../common/lang";
 import { filterTasks } from "../common/filtering";
 
@@ -51,7 +51,13 @@ export function onStoredStateChange(storedState: State) {
   backgroundState.showNonErrorNotifications =
     storedState.settings.notifications.enableFeedbackNotifications;
 
-  backgroundState.torrentTrackers = updateAndGetTorrentTrackers(storedState);
+  if (storedState.settings.torrentTrackers.enablePublicTrackers) {
+    updateRemoteTrackers(storedState.settings.torrentTrackers.publicTrackerURL).then(
+      (trackers) => (backgroundState.trackerList = trackers),
+    );
+  }else{
+    backgroundState.trackerList = [];
+  }
 
   if (storedState.taskFetchFailureReason) {
     browser.browserAction.setIcon({

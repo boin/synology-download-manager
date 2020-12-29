@@ -45,7 +45,7 @@ function toMessageResponse<T, U>(
   } else {
     return {
       success: true,
-      // Non-null assert: extract exists iff we are type-parameterized to something other than undefined.
+      // Non-null assert: extract exists if we are type-parameterized to something other than undefined.
       result: extract?.(response.data)!,
     };
   }
@@ -57,6 +57,7 @@ const MESSAGE_HANDLERS: MessageHandlers = {
       state.api,
       state.pollRequestManager,
       state.showNonErrorNotifications,
+      state.trackerList,
       m.urls,
       m.options,
     );

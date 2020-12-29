@@ -177,7 +177,7 @@ class SettingsForm extends React.PureComponent<Props, State> {
               );
             }}
             label={browser.i18n.getMessage(
-              "Automatically_add_trackers_to_new_tasks_form_a_trackslist_URL",
+              "Automatically_add_torrent_trackers_from_a_list",
             )}
           />
 
@@ -188,9 +188,10 @@ class SettingsForm extends React.PureComponent<Props, State> {
               {...disabledPropAndClassName(
                 !this.props.extensionState.settings.torrentTrackers.enablePublicTrackers,
               )}
+              placeholder={browser.i18n.getMessage("Tracker_list_URL")}
               style={{ flex: 1 }}
               value={this.state.publicTrackerURL}
-              onChange={(e) => {
+              onBlur={(e) => {
                 const publicTrackerURL = e.currentTarget.value;
                 this.setState({ publicTrackerURL });
                 if (publicTrackerURL !== "") {
@@ -304,7 +305,6 @@ ${this.props.lastSevereError}`;
     key: K,
     value: TorrentTrackerSettings[K],
   ) {
-    console.log(key, value);
     this.saveSettings({
       torrentTrackers: {
         ...this.props.extensionState.settings.torrentTrackers,

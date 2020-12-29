@@ -10,4 +10,5 @@ export {
   Logging,
   StateVersion,
   BadgeDisplayType,
-} from "./5";
+  TorrentTrackerSettings,
+} from "./6";

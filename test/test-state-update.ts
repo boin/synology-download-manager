@@ -9,6 +9,7 @@ import type { State as State_2 } from "../src/common/state/2";
 import type { State as State_3 } from "../src/common/state/3";
 import type { State as State_4 } from "../src/common/state/4";
 import type { State as State_5 } from "../src/common/state/5";
+import type { State as State_6 } from "../src/common/state/6";
 
 interface PreVersioningState_0 {
   connection: {
@@ -58,7 +59,7 @@ const DUMMY_TASK: DownloadStationTask = {
   status: "downloading",
 };
 
-function testTranstion<T>(before: T, after: State_5) {
+function testTranstion<T>(before: T, after: State_6) {
   const originalBefore = cloneDeep(before);
   const transitioned = updateStateToLatest(before);
 
@@ -117,7 +118,7 @@ describe("state versioning", () => {
           },
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
           shouldHandleDownloadLinks: true,
           taskSortType: "name-asc",
@@ -129,7 +130,7 @@ describe("state versioning", () => {
         tasksLastCompletedFetchTimestamp: null,
         tasksLastInitiatedFetchTimestamp: null,
         lastSevereError: undefined,
-        stateVersion: 5,
+        stateVersion: 6,
       },
     );
   });
@@ -186,7 +187,7 @@ describe("state versioning", () => {
           },
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
           shouldHandleDownloadLinks: true,
           taskSortType: "name-asc",
@@ -198,7 +199,7 @@ describe("state versioning", () => {
         tasksLastCompletedFetchTimestamp: null,
         tasksLastInitiatedFetchTimestamp: null,
         lastSevereError: undefined,
-        stateVersion: 5,
+        stateVersion: 6,
       },
     );
   });
@@ -229,7 +230,7 @@ describe("state versioning", () => {
           },
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
           shouldHandleDownloadLinks: true,
           taskSortType: "name-asc",
@@ -241,7 +242,7 @@ describe("state versioning", () => {
         tasksLastCompletedFetchTimestamp: null,
         tasksLastInitiatedFetchTimestamp: null,
         lastSevereError: undefined,
-        stateVersion: 5,
+        stateVersion: 6,
       },
     );
   });
@@ -270,7 +271,7 @@ describe("state versioning", () => {
         },
         torrentTrackers: {
           enablePublicTrackers: false,
-          publicTrackerURL: ""
+          publicTrackerURL: "",
         },
         shouldHandleDownloadLinks: true,
         taskSortType: "name-asc",
@@ -281,7 +282,7 @@ describe("state versioning", () => {
       tasksLastCompletedFetchTimestamp: null,
       tasksLastInitiatedFetchTimestamp: null,
       lastSevereError: undefined,
-      stateVersion: 5,
+      stateVersion: 6,
     });
   });
 
@@ -312,10 +313,6 @@ describe("state versioning", () => {
         taskFetchFailureReason: "missing-config",
         tasksLastCompletedFetchTimestamp: 0,
         tasksLastInitiatedFetchTimestamp: 0,
-        torrentTrackers: {
-          enablePublicTrackers: false,
-          publicTrackerURL: ""
-        },
         shouldHandleDownloadLinks: true,
         stateVersion: 1,
       },
@@ -342,7 +339,7 @@ describe("state versioning", () => {
           },
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
           shouldHandleDownloadLinks: true,
           taskSortType: "name-asc",
@@ -353,7 +350,7 @@ describe("state versioning", () => {
         tasksLastCompletedFetchTimestamp: null,
         tasksLastInitiatedFetchTimestamp: null,
         lastSevereError: undefined,
-        stateVersion: 5,
+        stateVersion: 6,
       },
     );
   });
@@ -385,10 +382,6 @@ describe("state versioning", () => {
         taskFetchFailureReason: "missing-config",
         tasksLastCompletedFetchTimestamp: 0,
         tasksLastInitiatedFetchTimestamp: 0,
-        torrentTrackers: {
-          enablePublicTrackers: false,
-          publicTrackerURL: ""
-        },
         shouldHandleDownloadLinks: true,
         lastSevereError: new Error(),
         stateVersion: 2,
@@ -416,7 +409,7 @@ describe("state versioning", () => {
           },
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
           shouldHandleDownloadLinks: true,
           taskSortType: "name-asc",
@@ -427,7 +420,7 @@ describe("state versioning", () => {
         tasksLastCompletedFetchTimestamp: 0,
         tasksLastInitiatedFetchTimestamp: 0,
         lastSevereError: undefined,
-        stateVersion: 5,
+        stateVersion: 6,
       },
     );
   });
@@ -458,10 +451,6 @@ describe("state versioning", () => {
         taskFetchFailureReason: "missing-config",
         tasksLastCompletedFetchTimestamp: 0,
         tasksLastInitiatedFetchTimestamp: 0,
-        torrentTrackers: {
-          enablePublicTrackers: false,
-          publicTrackerURL: ""
-        },
         lastSevereError: new Error(),
         stateVersion: 2,
       },
@@ -488,7 +477,7 @@ describe("state versioning", () => {
           },
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
           shouldHandleDownloadLinks: true,
           taskSortType: "name-asc",
@@ -499,7 +488,7 @@ describe("state versioning", () => {
         tasksLastCompletedFetchTimestamp: 0,
         tasksLastInitiatedFetchTimestamp: 0,
         lastSevereError: undefined,
-        stateVersion: 5,
+        stateVersion: 6,
       },
     );
   });
@@ -525,10 +514,6 @@ describe("state versioning", () => {
           enableCompletionNotifications: true,
           enableFeedbackNotifications: true,
           completionPollingInterval: 0,
-        },
-        torrentTrackers: {
-          enablePublicTrackers: false,
-          publicTrackerURL: ""
         },
         shouldHandleDownloadLinks: true,
         taskSortType: "name-asc",
@@ -562,7 +547,7 @@ describe("state versioning", () => {
           },
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
           shouldHandleDownloadLinks: true,
           taskSortType: "name-asc",
@@ -573,7 +558,7 @@ describe("state versioning", () => {
         tasksLastCompletedFetchTimestamp: 0,
         tasksLastInitiatedFetchTimestamp: 0,
         lastSevereError: undefined,
-        stateVersion: 5,
+        stateVersion: 6,
       },
     );
   });
@@ -599,10 +584,6 @@ describe("state versioning", () => {
           enableCompletionNotifications: true,
           enableFeedbackNotifications: true,
           completionPollingInterval: 0,
-        },
-        torrentTrackers: {
-          enablePublicTrackers: false,
-          publicTrackerURL: ""
         },
         shouldHandleDownloadLinks: true,
         taskSortType: "name-asc",
@@ -635,12 +616,49 @@ describe("state versioning", () => {
             enableFeedbackNotifications: true,
             completionPollingInterval: 0,
           },
-          taskSortType: "name-asc",
-          badgeDisplayType: "total",
           torrentTrackers: {
             enablePublicTrackers: false,
-            publicTrackerURL: ""
+            publicTrackerURL: "",
           },
+          taskSortType: "name-asc",
+          badgeDisplayType: "total",
+          shouldHandleDownloadLinks: true,
+        },
+        tasks: [DUMMY_TASK],
+        taskFetchFailureReason: "missing-config",
+        tasksLastCompletedFetchTimestamp: 0,
+        tasksLastInitiatedFetchTimestamp: 0,
+        lastSevereError: undefined,
+        stateVersion: 6,
+      },
+    );
+  });
+
+  it("should add torrentTrackers settings when upgrading from 5 to 6", () => {
+    testTranstion<State_5>(
+      {
+        settings: {
+          connection: {
+            protocol: "http",
+            hostname: "hostname",
+            port: 0,
+            username: "username",
+            password: "password",
+          },
+          visibleTasks: {
+            downloading: true,
+            uploading: true,
+            completed: true,
+            errored: true,
+            other: true,
+          },
+          notifications: {
+            enableCompletionNotifications: true,
+            enableFeedbackNotifications: true,
+            completionPollingInterval: 0,
+          },
+          taskSortType: "name-asc",
+          badgeDisplayType: "total",
           shouldHandleDownloadLinks: true,
         },
         tasks: [DUMMY_TASK],
@@ -650,11 +668,47 @@ describe("state versioning", () => {
         lastSevereError: undefined,
         stateVersion: 5,
       },
+      {
+        settings: {
+          connection: {
+            protocol: "http",
+            hostname: "hostname",
+            port: 0,
+            username: "username",
+            password: "password",
+          },
+          visibleTasks: {
+            downloading: true,
+            uploading: true,
+            completed: true,
+            errored: true,
+            other: true,
+          },
+          notifications: {
+            enableCompletionNotifications: true,
+            enableFeedbackNotifications: true,
+            completionPollingInterval: 0,
+          },
+          torrentTrackers: {
+            enablePublicTrackers: false,
+            publicTrackerURL: "",
+          },
+          taskSortType: "name-asc",
+          badgeDisplayType: "total",
+          shouldHandleDownloadLinks: true,
+        },
+        tasks: [DUMMY_TASK],
+        taskFetchFailureReason: "missing-config",
+        tasksLastCompletedFetchTimestamp: 0,
+        tasksLastInitiatedFetchTimestamp: 0,
+        lastSevereError: undefined,
+        stateVersion: 6,
+      },
     );
   });
 
   it("should do nothing when the state is already latest", () => {
-    const before: State_5 = {
+    const before: State_6 = {
       settings: {
         connection: {
           protocol: "http",
@@ -679,7 +733,7 @@ describe("state versioning", () => {
         badgeDisplayType: "total",
         torrentTrackers: {
           enablePublicTrackers: false,
-          publicTrackerURL: ""
+          publicTrackerURL: "",
         },
         shouldHandleDownloadLinks: true,
       },
@@ -688,7 +742,7 @@ describe("state versioning", () => {
       tasksLastCompletedFetchTimestamp: 0,
       tasksLastInitiatedFetchTimestamp: 0,
       lastSevereError: undefined,
-      stateVersion: 5,
+      stateVersion: 6,
     };
 
     expect(updateStateToLatest(before)).to.equal(before);

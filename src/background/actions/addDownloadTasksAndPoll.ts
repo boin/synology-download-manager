@@ -18,6 +18,7 @@ import { pollTasks } from "./pollTasks";
 import type { UnionByDiscriminant } from "../../common/types";
 import type { AddTaskOptions } from "../../common/apis/messages";
 import type { RequestManager } from "../requestManager";
+import type { CachedTrackers } from "./torrentTracker";
 
 type ArrayifyValues<T extends Record<string, any>> = {
   [K in keyof T]: T[K][];
@@ -58,6 +59,7 @@ async function addOneTask(
   api: ApiClient,
   pollRequestManager: RequestManager,
   showNonErrorNotifications: boolean,
+  trackerList: CachedTrackers,
   url: string,
   { path, ftpUsername, ftpPassword, unzipPassword }: AddTaskOptions,
 ) {
@@ -114,7 +116,7 @@ async function addOneTask(
     ? notify(browser.i18n.getMessage("Adding_download"), guessFileNameFromUrl(url) ?? url)
     : undefined;
 
-  const resolvedUrl = await resolveUrl(url);
+  const resolvedUrl = await resolveUrl(url, { trackerList });
 
   const commonCreateOptions = {
     destination: path,
@@ -165,6 +167,7 @@ async function addMultipleTasks(
   api: ApiClient,
   pollRequestManager: RequestManager,
   showNonErrorNotifications: boolean,
+  trackerList: CachedTrackers,
   urls: string[],
   { path, ftpUsername, ftpPassword, unzipPassword }: AddTaskOptions,
 ) {
@@ -175,7 +178,7 @@ async function addMultipleTasks(
       )
     : undefined;
 
-  const resolvedUrls = await Promise.all(urls.map((url) => resolveUrl(url)));
+  const resolvedUrls = await Promise.all(urls.map((url) => resolveUrl(url, { trackerList })));
 
   const groupedUrls: ResolvedUrlByType = {
     "direct-download": [],
@@ -294,6 +297,7 @@ export async function addDownloadTasksAndPoll(
   api: ApiClient,
   pollRequestManager: RequestManager,
   showNonErrorNotifications: boolean,
+  trackerList: CachedTrackers,
   urls: string[],
   options?: AddTaskOptions,
 ): Promise<void> {
@@ -314,6 +318,7 @@ export async function addDownloadTasksAndPoll(
       api,
       pollRequestManager,
       showNonErrorNotifications,
+      trackerList,
       urls[0],
       normalizedOptions,
     );
@@ -322,6 +327,7 @@ export async function addDownloadTasksAndPoll(
       api,
       pollRequestManager,
       showNonErrorNotifications,
+      trackerList,
       urls,
       normalizedOptions,
     );

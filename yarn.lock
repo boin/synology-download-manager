@@ -980,6 +980,13 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.141.tgz#d81f4d0c562abe28713406b571ffb27692a82ae6"
   integrity sha512-v5NYIi9qEbFEUpCyikmnOYe4YlP8BMUdTcNCAquAKzu+FA7rZ1onj9x80mbnDdOW/K5bFf3Tv5kJplP33+gAbQ==
 
+"@types/magnet-uri@^5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@types/magnet-uri/-/magnet-uri-5.1.2.tgz#7860417399d52ddc0be1021d570b4ac93ffc133e"
+  integrity sha512-bXFPXskwHoEYP6t8rq4nWchOlbUzXkyhnfCVZmq+zb25R5pWkasw7BmTIqDKQ6RAQmq89jll1v23yLa/SvPfAw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -1298,6 +1305,11 @@ bencodec@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/bencodec/-/bencodec-2.4.0.tgz#3df8f8a966b100600ee5c53600d6b126bbb9de06"
   integrity sha512-j6MWD2UJuh99E/6+2I95+dBuDLBxgXIk51lXzCX4oSKpid/y4GhR8dTU9fk42423muevROoi/hwmxmCMt4wN3w==
+
+bep53-range@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bep53-range/-/bep53-range-1.1.0.tgz#a009311710c955d27eb3a30cf329e8c139693d27"
+  integrity sha512-yGQTG4NtwTciX0Bkgk1FqQL4p+NiCQKpTSFho2lrxvUkXIlzyJDwraj8aYxAxRZMnnOhRr7QlIBoMRPEnIR34Q==
 
 binary-extensions@^1.0.0:
   version "1.13.1"
@@ -3445,6 +3457,14 @@ magic-string@^0.22.4:
   dependencies:
     vlq "^0.2.2"
 
+magnet-uri@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/magnet-uri/-/magnet-uri-6.1.0.tgz#fe73026ba1ee77c955097a4979d1003f4fb7ecf7"
+  integrity sha512-731qLviHaqN/Ni96wm6gNKuvoip+QHWTznjHNz/4qDlsHh3/CWJoL8fZ18IIRhGJgnWoKJp8RVE5lZvQ60Khhw==
+  dependencies:
+    bep53-range "^1.0.0"
+    thirty-two "^1.0.2"
+
 make-error@^1.1.1:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/make-error/-/make-error-1.3.5.tgz#efe4e81f6db28cadd605c70f29c831b58ef776c8"
@@ -5289,6 +5309,11 @@ terser@^4.8.0:
     commander "^2.20.0"
     source-map "~0.6.1"
     source-map-support "~0.5.12"
+
+thirty-two@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/thirty-two/-/thirty-two-1.0.2.tgz#4ca2fffc02a51290d2744b9e3f557693ca6b627a"
+  integrity sha1-TKL//AKlEpDSdEueP1V2k8prYno=
 
 through2@^2.0.0, through2@~2.0.3:
   version "2.0.5"
