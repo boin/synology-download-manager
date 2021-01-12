@@ -33,7 +33,7 @@ export interface State extends CachedTasks_5, Logging_5, StateVersion {
   settings: Settings;
 }
 
-export function transition(state: State_5): State {
+export function migrate(state: State_5): State {
   return {
     ...state,
     settings: {
