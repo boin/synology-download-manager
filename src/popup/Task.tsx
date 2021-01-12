@@ -1,3 +1,4 @@
+import "./task.scss";
 import * as React from "react";
 import startCase from "lodash-es/startCase";
 import upperCase from "lodash-es/upperCase";
@@ -134,7 +135,7 @@ export class Task extends React.PureComponent<Props, State> {
     } else {
       const fraction = this.computeFractionComplete();
       return renderStatusLine(
-        "far fa-clock",
+        "fa fa-clock",
         browser.i18n.getMessage("ZstatusZ_ZpercentZ_ZcurrentZ_of_ZtotalZ_downloaded", [
           upperCase(this.props.task.status),
           formatPercentage(fraction),

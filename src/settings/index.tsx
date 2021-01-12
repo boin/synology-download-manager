@@ -1,6 +1,4 @@
-import "../../scss/fields.scss";
-import "../../scss/settings.scss";
-import "../../scss/non-ideal-state.scss";
+import "./index.scss";
 import "../common/init/extensionContext";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -27,7 +25,7 @@ import { SettingsList } from "../common/components/SettingsList";
 import { SettingsListCheckbox } from "../common/components/SettingsListCheckbox";
 import { saveSettings } from "./settingsUtils";
 import { ConnectionSettings as ConnectionSettingsComponent } from "./ConnectionSettings";
-import { disabledPropAndClassName, kludgeRefSetClassname } from "./classnameUtil";
+import { disabledPropAndClassName, kludgeRefSetClassname } from "../common/classnameUtil";
 import { typesafePick } from "../common/lang";
 
 interface Props {

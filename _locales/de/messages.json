@@ -90,18 +90,6 @@
     "message": "Verzeichnis auf- und zuklappen",
     "description": "Tooltip for expand/collapse button in directory tree view."
   },
-  "Settings_unconfigured": {
-    "message": "Einstellungen nicht konfiguriert.",
-    "description": "Task load failure reason."
-  },
-  "The_hostname_username_or_password_are_not_configured": {
-    "message": "Hostname, Benutzername oder Passwort nicht vorhanden",
-    "description": "Tooltip for a type of task load failure."
-  },
-  "Updating": {
-    "message": "Aktualisierung...",
-    "description": "Generic updating text."
-  },
   "Updating_download_tasks": {
     "message": "Download-Aufgaben aktualisieren...",
     "description": "Tooltip for updating-in-progress text in popup header."
@@ -483,7 +471,7 @@
     "message": " und füge die folgenden Informationen hinzu.",
     "description": "Suffix for action text for the popup when asking the user to file a bug when we have a fatal rendering error."
   },
-  "Clear_ZcountZ_Completed_Tasks": {
+  "Clear_ZcountZ_completed_and_not_uploading_tasks": {
     "message": "$COUNT$ erledigte Aufgabe(n) löschen",
     "description": "Label for button to clear completed download tasks.",
     "placeholders": {
@@ -491,11 +479,8 @@
         "content": "$1",
         "example": "1"
       }
-    }
-  },
-  "Clear_tasks_that_are_completed_and_not_currently_uploading": {
-    "message": "Lösche Aufgaben, die abgeschlossen sind und derzeit nicht hochgeladen werden",
-    "description": "Tooltip for button to clear completed download tasks."
+    },
+    "needs_update": true
   },
   "Unknown_error": {
     "message": "Unbekannter Fehler.",
